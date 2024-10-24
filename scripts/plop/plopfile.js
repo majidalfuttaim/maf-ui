@@ -16,7 +16,7 @@ export default function (plop) {
         message: 'Tag name? (e.g. sl-button)',
         validate: value => {
           // Start with sl- and include only a-z + dashes
-          if (!/^sl-[a-z-+]+/.test(value)) {
+          if (!/^(sl|mf)-[a-z-+]+/.test(value)) {
             return false;
           }
 
