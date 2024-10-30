@@ -14,8 +14,15 @@ New versions of Shoelace are released as-needed and generally occur when a criti
 
 ## Next
 
-- Updated all checks for directionality to use `this.localize.dir()` instead of `el.matches(:dir(rtl))` so older browsers don't error out [#2188]
-- Added Finnish translations [#2211]
+- Added support for <kbd>Enter</kbd> to `<sl-split-panel>` to align with ARIA APG's [window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/) [#2234]
+- Fixed a bug in `<sl-carousel>` that caused the navigation icons to be reversed
+- Fixed a bug in `<sl-select>` that prevented label changes in `<sl-option>` from updating the controller [#1971]
+- Fixed a bug in `<sl-textarea>` that caused a console warning in Firefox when typing [#2107]
+- Improved performance of `<sl-range>` by skipping positioning logic when tooltip isn't shown [#2064]
+
+## 2.18.0
+
+- Added Finnish translation [#2211]
 - Added the `.focus` function to `<sl-radio-group>` [#2192]
 - Fixed a bug in `<sl-tab-group>` when removed from the DOM too quickly. [#2218]
 - Fixed a bug with `<sl-select>` not respecting its initial value. [#2204]
@@ -23,6 +30,10 @@ New versions of Shoelace are released as-needed and generally occur when a criti
 - Fixed a bug in `<sl-textarea>` causing scroll jumping when using `resize="auto"` [#2182]
 - Fixed a bug in `<sl-relative-time>` where the title attribute would show with redundant info [#2184]
 - Fixed a bug in `<sl-select>` that caused multi-selects without placeholders to have the wrong padding [#2194]
+- Fixed a bug in `<sl-tooltip>` that caused a memory leak in disconnected elements [#2226]
+- Fixed a bug in `<sl-select>` that caused an exception in an edge case using Edge + autofill [#2221]
+- Improved the behavior of navigation dots in `<sl-carousel>` [#2220]
+- Updated all checks for directionality to use `this.localize.dir()` instead of `el.matches(:dir(rtl))` so older browsers don't error out [#2188]
 
 ## 2.17.1
 
