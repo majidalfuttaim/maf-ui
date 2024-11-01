@@ -507,7 +507,7 @@ describe('<sl-select>', () => {
 
     option.textContent = 'updated';
 
-    await aTimeout(0);
+    await aTimeout(250);
     await option.updateComplete;
     await el.updateComplete;
 
