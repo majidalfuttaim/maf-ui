@@ -33,3 +33,4 @@ export type { SlSlideChangeEvent } from './sl-slide-change.js';
 export type { SlStartEvent } from './sl-start.js';
 export type { SlTabHideEvent } from './sl-tab-hide.js';
 export type { SlTabShowEvent } from './sl-tab-show.js';
+export type { MfNavSelectEvent } from './mf-nav-select.js';

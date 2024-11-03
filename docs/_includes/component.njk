@@ -1,6 +1,7 @@
 {% extends "default.njk" %}
 
 {# Find the component based on the `tag` front matter #}
+{# the below line should be updated to not add the "SL-" in the header #}
 {% set component = getComponent('sl-' + page.fileSlug) %}
 
 {% block content %}

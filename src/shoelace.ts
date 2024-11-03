@@ -58,6 +58,7 @@ export { default as SlTree } from './components/tree/tree.js';
 export { default as SlTreeItem } from './components/tree-item/tree-item.js';
 export { default as SlVisuallyHidden } from './components/visually-hidden/visually-hidden.js';
 export { default as MfNavigation } from './components/mf-navigation/mf-navigation.js';
+export { default as MfNavItem } from './components/mf-nav-item/mf-nav-item.js';
 /* plop:component */
 
 // Utilities
