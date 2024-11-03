@@ -373,7 +373,7 @@ export default class SlSelect extends ShoelaceElement implements ShoelaceFormCon
     }
 
     // All other "printable" keys trigger type to select
-    if (event.key.length === 1 || event.key === 'Backspace') {
+    if ((event.key && event.key.length === 1) || event.key === 'Backspace') {
       const allOptions = this.getAllOptions();
 
       // Don't block important key combos like CMD+R
@@ -501,7 +501,8 @@ export default class SlSelect extends ShoelaceElement implements ShoelaceFormCon
     }
   }
 
-  private handleDefaultSlotChange() {
+  /* @internal - used by options to update labels */
+  public handleDefaultSlotChange() {
     if (!customElements.get('wa-option')) {
       customElements.whenDefined('wa-option').then(() => this.handleDefaultSlotChange());
     }
