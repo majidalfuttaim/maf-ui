@@ -21,7 +21,9 @@ export default css`
     line-height: var(--sl-line-height-normal);
     letter-spacing: var(--sl-letter-spacing-normal);
     color: var(--sl-color-neutral-700);
-    padding: var(--sl-spacing-2x-small) var(--sl-spacing-2x-small);
+    padding: var(--nav-spacing-inset-stretch, --nav-spacing-inset) var(--nav-spacing-inset-squish, --nav-spacing-inset);
+    margin-right: var(--nav-spacing-inline);
+    margin-bottom: var(--nav-spacing-stack);
     transition: var(--sl-transition-fast) fill;
     user-select: none;
     -webkit-user-select: none;
@@ -141,7 +143,12 @@ export default css`
     z-index: var(--sl-z-index-dropdown);
     margin-top: var(--subnav-offset);
   }
-
+  
+  .nav-item--rtl {
+    margin-left: var(--nav-spacing-inline);
+    margin-right: 0px !important;
+  }
+  
   .nav-item--rtl sl-popup::part(popup) {
     margin-top: calc(-1 * var(--subnav-offset));
   }
