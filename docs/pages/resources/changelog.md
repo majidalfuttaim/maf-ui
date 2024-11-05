@@ -18,6 +18,7 @@ New versions of Shoelace are released as-needed and generally occur when a criti
 - Fixed a bug in `<sl-carousel>` that caused the navigation icons to be reversed
 - Fixed a bug in `<sl-select>` that prevented label changes in `<sl-option>` from updating the controller [#1971]
 - Fixed a bug in `<sl-textarea>` that caused a console warning in Firefox when typing [#2107]
+- Fixed a bug in `<sl-carousel>` that caused interactive elements to be activated when dragging [#2196]
 - Improved performance of `<sl-range>` by skipping positioning logic when tooltip isn't shown [#2064]
 
 ## 2.18.0
