@@ -18,7 +18,7 @@ export interface NavSelectEventDetail {
  * @status experimental
  * @since 2.0
  *
- * @dependency sl-example
+ * @dependency mf-nav-item
  *
  *
  *
@@ -27,7 +27,6 @@ export interface NavSelectEventDetail {
  *
  * @csspart base - The component's base wrapper.
  *
- * @cssproperty --example - An example CSS custom property.
  *
  * @event {{ item: MfNavItem }} mf-nav-select - Emitted when a nav item is selected.
  */
@@ -36,8 +35,12 @@ export default class MfNavigation extends ShoelaceElement {
   @query('slot') defaultSlot: HTMLSlotElement;
 
   private readonly localize = new LocalizeController(this);
+
   /** provides a vertical class for the navigation */
   @property({ type: Boolean, reflect: true }) vertical = false;
+
+  /** provides a wide class for the navigation */
+  @property({ type: Boolean, reflect: true }) wide = false;
 
   connectedCallback() {
     super.connectedCallback();
@@ -179,7 +182,8 @@ export default class MfNavigation extends ShoelaceElement {
         class=${classMap({
           navigation: true,
           'navigation--rtl': isRtl,
-          'navigation--vertical': this.vertical
+          'navigation--vertical': this.vertical,
+          'navigation--wide': this.wide
         })}
       >
         <slot

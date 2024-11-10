@@ -60,6 +60,10 @@ export { default as SlVisuallyHidden } from './components/visually-hidden/visual
 export { default as MfNavigation } from './components/mf-navigation/mf-navigation.js';
 export { default as MfNavItem } from './components/mf-nav-item/mf-nav-item.js';
 
+export { default as MfHeader } from './components/mf-header/mf-header.js';
+export { default as MfLogo } from './components/mf-logo/mf-logo.js';
+export { default as MfNavActions } from './components/mf-actions/mf-actions.js';
+export { default as MfActionItem } from './components/mf-action-item/mf-action-item.js';
 /* plop:component */
 
 // Utilities

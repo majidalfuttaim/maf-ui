@@ -2,27 +2,27 @@ import { createRef, ref, type Ref } from 'lit/directives/ref.js';
 import { type HasSlotController } from '../../internal/slot.js';
 import { html } from 'lit';
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
-import type MfNavItem from './mf-nav-item.js';
+import type MfActionItem from './mf-action-item.js';
 import type SlPopup from '../popup/popup.js';
 
-/** A reactive controller to manage the registration of event listeners for subnavs. */
-export class SubnavController implements ReactiveController {
-  private host: ReactiveControllerHost & MfNavItem;
+/** A reactive controller to manage the registration of event listeners for submenus. */
+export class SubmenuController implements ReactiveController {
+  private host: ReactiveControllerHost & MfActionItem;
   private popupRef: Ref<SlPopup> = createRef();
-  private enableSubnavTimer = -1;
+  private enableSubmenuTimer = -1;
   private isConnected = false;
   private isPopupConnected = false;
   private skidding = 0;
   private readonly hasSlotController: HasSlotController;
-  private readonly subnavOpenDelay = 100;
+  private readonly submenuOpenDelay = 100;
 
-  constructor(host: ReactiveControllerHost & MfNavItem, hasSlotController: HasSlotController) {
+  constructor(host: ReactiveControllerHost & MfActionItem, hasSlotController: HasSlotController) {
     (this.host = host).addController(this);
     this.hasSlotController = hasSlotController;
   }
 
   hostConnected() {
-    if (this.hasSlotController.test('subnav') && !this.host.disabled) {
+    if (this.hasSlotController.test('submenu') && !this.host.disabled) {
       this.addListeners();
     }
   }
@@ -32,7 +32,7 @@ export class SubnavController implements ReactiveController {
   }
 
   hostUpdated() {
-    if (this.hasSlotController.test('subnav') && !this.host.disabled) {
+    if (this.hasSlotController.test('submenu') && !this.host.disabled) {
       this.addListeners();
       this.updateSkidding();
     } else {
@@ -86,52 +86,52 @@ export class SubnavController implements ReactiveController {
   };
 
   private handleMouseOver = () => {
-    if (this.hasSlotController.test('subnav')) {
-      this.enableSubnav();
+    if (this.hasSlotController.test('submenu')) {
+      this.enableSubmenu();
     }
   };
 
-  private handleSubnavEntry(event: KeyboardEvent) {
-    // Pass focus to the first nav-item in the subnav.
-    const subnavSlot: HTMLSlotElement | null = this.host.renderRoot.querySelector("slot[name='subnav']");
+  private handleSubmenuEntry(event: KeyboardEvent) {
+    // Pass focus to the first menu-item in the submenu.
+    const submenuSlot: HTMLSlotElement | null = this.host.renderRoot.querySelector("slot[name='submenu']");
 
     // Missing slot
-    if (!subnavSlot) {
-      console.error('Cannot activate a subnav if no corresponding navitem can be found.', this);
+    if (!submenuSlot) {
+      console.error('Cannot activate a submenu if no corresponding menuitem can be found.', this);
       return;
     }
 
-    // Navs
-    let navItems: NodeListOf<Element> | null = null;
-    for (const elt of subnavSlot.assignedElements()) {
-      navItems = elt.querySelectorAll("mf-nav-item, [role^='navitem']");
-      if (navItems.length !== 0) {
+    // Menus
+    let menuItems: NodeListOf<Element> | null = null;
+    for (const elt of submenuSlot.assignedElements()) {
+      menuItems = elt.querySelectorAll("mf-action-item, [role^='actionitem']");
+      if (menuItems.length !== 0) {
         break;
       }
     }
 
-    if (!navItems || navItems.length === 0) {
+    if (!menuItems || menuItems.length === 0) {
       return;
     }
 
-    navItems[0].setAttribute('tabindex', '0');
-    for (let i = 1; i !== navItems.length; ++i) {
-      navItems[i].setAttribute('tabindex', '-1');
+    menuItems[0].setAttribute('tabindex', '0');
+    for (let i = 1; i !== menuItems.length; ++i) {
+      menuItems[i].setAttribute('tabindex', '-1');
     }
 
-    // Open the subnav (if not open), and set focus to first navitem.
+    // Open the submenu (if not open), and set focus to first menuitem.
     if (this.popupRef.value) {
       event.preventDefault();
       event.stopPropagation();
       if (this.popupRef.value.active) {
-        if (navItems[0] instanceof HTMLElement) {
-          navItems[0].focus();
+        if (menuItems[0] instanceof HTMLElement) {
+          menuItems[0].focus();
         }
       } else {
-        this.enableSubnav(false);
+        this.enableSubmenu(false);
         this.host.updateComplete.then(() => {
-          if (navItems![0] instanceof HTMLElement) {
-            navItems![0].focus();
+          if (menuItems![0] instanceof HTMLElement) {
+            menuItems![0].focus();
           }
         });
         this.host.requestUpdate();
@@ -139,12 +139,12 @@ export class SubnavController implements ReactiveController {
     }
   }
 
-  // Focus on the first nav-item of a subnav.
+  // Focus on the first menu-item of a submenu.
   private handleKeyDown = (event: KeyboardEvent) => {
     switch (event.key) {
       case 'Escape':
       case 'Tab':
-        this.disableSubnav();
+        this.disableSubmenu();
         break;
       case 'ArrowLeft':
         // Either focus is currently on the host element or a child
@@ -152,13 +152,13 @@ export class SubnavController implements ReactiveController {
           event.preventDefault();
           event.stopPropagation();
           this.host.focus();
-          this.disableSubnav();
+          this.disableSubmenu();
         }
         break;
       case 'ArrowRight':
       case 'Enter':
       case ' ':
-        this.handleSubnavEntry(event);
+        this.handleSubmenuEntry(event);
         break;
       default:
         break;
@@ -166,49 +166,49 @@ export class SubnavController implements ReactiveController {
   };
 
   private handleClick = (event: MouseEvent) => {
-    // Clicking on the item which heads the nav does nothing, otherwise hide subnav and propagate
+    // Clicking on the item which heads the menu does nothing, otherwise hide submenu and propagate
     if (event.target === this.host) {
       event.preventDefault();
       event.stopPropagation();
     } else if (
       event.target instanceof Element &&
-      (event.target.tagName === 'mf-nav-item' || event.target.role?.startsWith('navitem'))
+      (event.target.tagName === 'sl-menu-item' || event.target.role?.startsWith('menuitem'))
     ) {
-      this.disableSubnav();
+      this.disableSubmenu();
     }
   };
 
-  // Close this subnav on focus outside of the parent or any descendants.
+  // Close this submenu on focus outside of the parent or any descendants.
   private handleFocusOut = (event: FocusEvent) => {
     if (event.relatedTarget && event.relatedTarget instanceof Element && this.host.contains(event.relatedTarget)) {
       return;
     }
-    this.disableSubnav();
+    this.disableSubmenu();
   };
 
-  // Prevent the parent nav-item from getting focus on mouse movement on the subnav
+  // Prevent the parent menu-item from getting focus on mouse movement on the submenu
   private handlePopupMouseover = (event: MouseEvent) => {
     event.stopPropagation();
   };
 
-  // Set the safe triangle values for the subnav when the position changes
+  // Set the safe triangle values for the submenu when the position changes
   private handlePopupReposition = () => {
-    const subnavSlot: HTMLSlotElement | null = this.host.renderRoot.querySelector("slot[name='subnav']");
-    const nav = subnavSlot?.assignedElements({ flatten: true }).filter(el => el.localName === 'mf-nav')[0];
+    const submenuSlot: HTMLSlotElement | null = this.host.renderRoot.querySelector("slot[name='submenu']");
+    const menu = submenuSlot?.assignedElements({ flatten: true }).filter(el => el.localName === 'sl-menu')[0];
     const isRtl = getComputedStyle(this.host).direction === 'rtl';
-    if (!nav) {
+    if (!menu) {
       return;
     }
 
-    const { left, top, width, height } = nav.getBoundingClientRect();
+    const { left, top, width, height } = menu.getBoundingClientRect();
 
-    this.host.style.setProperty('--safe-triangle-subnav-start-x', `${isRtl ? left + width : left}px`);
-    this.host.style.setProperty('--safe-triangle-subnav-start-y', `${top}px`);
-    this.host.style.setProperty('--safe-triangle-subnav-end-x', `${isRtl ? left + width : left}px`);
-    this.host.style.setProperty('--safe-triangle-subnav-end-y', `${top + height}px`);
+    this.host.style.setProperty('--safe-triangle-submenu-start-x', `${isRtl ? left + width : left}px`);
+    this.host.style.setProperty('--safe-triangle-submenu-start-y', `${top}px`);
+    this.host.style.setProperty('--safe-triangle-submenu-end-x', `${isRtl ? left + width : left}px`);
+    this.host.style.setProperty('--safe-triangle-submenu-end-y', `${top + height}px`);
   };
 
-  private setSubnavState(state: boolean) {
+  private setSubmenuState(state: boolean) {
     if (this.popupRef.value) {
       if (this.popupRef.value.active !== state) {
         this.popupRef.value.active = state;
@@ -217,25 +217,25 @@ export class SubnavController implements ReactiveController {
     }
   }
 
-  // Shows the subnav. Supports disabling the opening delay, e.g. for keyboard events that want to set the focus to the
-  // newly opened nav.
-  private enableSubnav(delay = true) {
+  // Shows the submenu. Supports disabling the opening delay, e.g. for keyboard events that want to set the focus to the
+  // newly opened menu.
+  private enableSubmenu(delay = true) {
     if (delay) {
-      window.clearTimeout(this.enableSubnavTimer);
-      this.enableSubnavTimer = window.setTimeout(() => {
-        this.setSubnavState(true);
-      }, this.subnavOpenDelay);
+      window.clearTimeout(this.enableSubmenuTimer);
+      this.enableSubmenuTimer = window.setTimeout(() => {
+        this.setSubmenuState(true);
+      }, this.submenuOpenDelay);
     } else {
-      this.setSubnavState(true);
+      this.setSubmenuState(true);
     }
   }
 
-  private disableSubnav() {
-    window.clearTimeout(this.enableSubnavTimer);
-    this.setSubnavState(false);
+  private disableSubmenu() {
+    window.clearTimeout(this.enableSubmenuTimer);
+    this.setSubmenuState(false);
   }
 
-  // Calculate the space the top of a nav takes-up, for aligning the popup nav-item with the activating element.
+  // Calculate the space the top of a menu takes-up, for aligning the popup menu-item with the activating element.
   private updateSkidding(): void {
     // .computedStyleMap() not always available.
     if (!this.host.parentElement?.computedStyleMap) {
@@ -258,32 +258,30 @@ export class SubnavController implements ReactiveController {
     return this.popupRef.value ? this.popupRef.value.active : false;
   }
 
-  isWide(): boolean {
-    return this.host.wide ? this.host.wide : false;
-  }
-
-  renderSubnav() {
+  renderSubmenu() {
     // const isRtl = getComputedStyle(this.host).direction === 'rtl';
 
     // Always render the slot, but conditionally render the outer <sl-popup>
     if (!this.isConnected) {
-      return html` <slot name="subnav" hidden></slot> `;
+      return html` <slot name="submenu" hidden></slot> `;
     }
 
     return html`
       <sl-popup
         ${ref(this.popupRef)}
-        placement="bottom-start"
+        placement="bottom"
         anchor="anchor"
         flip
         flip-fallback-strategy="best-fit"
         skidding="${this.skidding}"
-        wide=${this.isWide()}
-        strategy="${this.isWide() ? 'absolute' : 'fixed'}"
+        strategy="fixed"
         auto-size="both"
-        sync="${this.isWide() ? '' : 'both'}"
+        auto-size-padding="10"
+        arrow
+        arrow-placement="center"
+        distance="8"
       >
-        <slot name="subnav"></slot>
+        <slot name="submenu"></slot>
       </sl-popup>
     `;
   }

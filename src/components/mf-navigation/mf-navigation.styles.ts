@@ -2,7 +2,7 @@ import { css } from 'lit';
 
 export default css`
   :host {
-    position: relative;
+    // position: relative;
     background: var(--mf-navigation-background-color);
     border: solid var(--mf-navigation-border-width) var(--mf-navigation-border-color);
     border-radius: var(--mf-navigation-radius-medium);
@@ -22,5 +22,10 @@ export default css`
 
   .navigation.navigation--vertical {
     flex-direction: column;
+  }
+
+  .navigation.navigation--wide {
+    width: 100%;
+    position: relative;
   }
 `;

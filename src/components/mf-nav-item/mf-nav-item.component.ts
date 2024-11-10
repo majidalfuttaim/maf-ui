@@ -71,6 +71,12 @@ export default class MfNavItem extends ShoelaceElement {
   /** Draws the nav item in a highlight state, provides custom class highlight. */
   @property({ type: Boolean, reflect: true }) highlight = false;
 
+  /** Draws the nav item navigation in a full width state, provides custom class wide. */
+  @property({ type: Boolean, reflect: true }) wide = false;
+
+  /** Hides the action item Chevron even if submenu is available. */
+  @property({ type: Boolean, reflect: true }) hideChevron = false;
+
   private readonly hasSlotController = new HasSlotController(this, 'subnav');
   private subnavController: SubnavController = new SubnavController(this, this.hasSlotController);
 
@@ -145,12 +151,14 @@ export default class MfNavItem extends ShoelaceElement {
         part="base"
         class=${classMap({
           'nav-item': true,
+          'nav-item--wide': this.wide,
           'nav-item--rtl': isRtl,
           'nav-item--disabled': this.disabled,
           'nav-item--loading': this.loading,
           'nav-item--highlight': this.highlight,
           'nav-item--has-subnav': this.isSubnav(),
-          'nav-item--subnav-expanded': isSubnavExpanded
+          'nav-item--subnav-expanded': isSubnavExpanded,
+          'nav-item--hide-subnav-chevron': this.hideChevron
         })}
         ?aria-haspopup="${this.isSubnav()}"
         ?aria-expanded="${isSubnavExpanded ? true : false}"

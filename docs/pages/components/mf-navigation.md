@@ -45,7 +45,7 @@ To create a subnav, nest an `<mf-navigation slot="subnav">` in any [nav item](/c
 ```html:preview
 <div style="min-height:250px;">
 <mf-navigation >
-  <mf-nav-item>
+  <mf-nav-item hideChevron>
     Men
     <mf-navigation slot="subnav">
       <mf-nav-item value="sale" highlight>Sale</mf-nav-item>
@@ -130,13 +130,13 @@ To create a subnav, nest an `<mf-navigation slot="subnav">` in any [nav item](/c
 
 ```html:preview
 <div style="min-height:250px;">
-<mf-navigation >
-  <mf-nav-item>
+<mf-navigation id="mainnav">
+  <mf-nav-item wide>
     Men
-    <mf-navigation slot="subnav">
+    <mf-navigation slot="subnav" wide>
       <mf-nav-item value="sale" highlight>Sale</mf-nav-item>
-      <mf-nav-item value="new-in">New In
-        <mf-navigation slot="subnav">
+      <mf-nav-item value="new-in" wide>New In
+        <mf-navigation slot="subnav" wide>
           <mf-nav-item value="adidas">Adidas</mf-nav-item>
           <mf-nav-item value="nike">Nike</mf-nav-item>
           <mf-nav-item value="nb">NB</mf-nav-item>
@@ -150,9 +150,9 @@ To create a subnav, nest an `<mf-navigation slot="subnav">` in any [nav item](/c
     </mf-navigation>
   </mf-nav-item>
 
-  <mf-nav-item>
+  <mf-nav-item wide>
     Women
-    <mf-navigation slot="subnav">
+    <mf-navigation slot="subnav" wide>
       <mf-nav-item value="sale" highlight>Sale</mf-nav-item>
       <mf-nav-item value="new-in">New In</mf-nav-item>
       <mf-nav-item value="designer">Designers</mf-nav-item>
@@ -161,7 +161,7 @@ To create a subnav, nest an `<mf-navigation slot="subnav">` in any [nav item](/c
     </mf-navigation>
   </mf-nav-item>
 
-  <mf-nav-item>
+  <mf-nav-item wide>
     Home & Gifts
     <mf-navigation slot="subnav">
       <mf-nav-item value="sale" highlight>Sale</mf-nav-item>
@@ -220,7 +220,7 @@ To create a subnav, nest an `<mf-navigation slot="subnav" vertical="true">` in a
 
 ```html:preview
 <div style="min-height:200px;">
-<mf-navigation >
+<mf-navigation id="mainnav">
   <mf-nav-item>
     Neighbourhoods
     <mf-navigation slot="subnav" vertical="true">
