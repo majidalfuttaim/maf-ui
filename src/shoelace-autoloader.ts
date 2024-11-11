@@ -15,10 +15,11 @@ const observer = new MutationObserver(mutations => {
  */
 export async function discover(root: Element | ShadowRoot) {
   const rootTagName = root instanceof Element ? root.tagName.toLowerCase() : '';
-  const rootIsShoelaceElement = rootTagName?.startsWith('sl-');
+  const regex = new RegExp(`^(sl-)\\w+|^(mf-)\\w+`, 'i');
+  const rootIsShoelaceElement = rootTagName?.match(regex);
   const tags = [...root.querySelectorAll(':not(:defined)')]
     .map(el => el.tagName.toLowerCase())
-    .filter(tag => tag.startsWith('sl-'));
+    .filter(tag => tag.match(regex));
 
   // If the root element is an undefined Shoelace component, add it to the list
   if (rootIsShoelaceElement && !customElements.get(rootTagName)) {
