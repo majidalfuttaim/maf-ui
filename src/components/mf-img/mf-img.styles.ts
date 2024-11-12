@@ -9,6 +9,11 @@ export default css`
     text-decoration: none;
   }
 
+  :host img {
+    display: block;
+    text-decoration: none;
+  }
+
   a img {
     display: block;
     width: 100%;

@@ -59,7 +59,7 @@ export { default as SlTreeItem } from './components/tree-item/tree-item.js';
 export { default as SlVisuallyHidden } from './components/visually-hidden/visually-hidden.js';
 export { default as MfNavigation } from './components/mf-navigation/mf-navigation.js';
 export { default as MfNavItem } from './components/mf-nav-item/mf-nav-item.js';
-export { default as MFLogo } from './components/mf-logo/mf-logo.js';
+export { default as MFLogo } from './components/mf-img/mf-img.js';
 /* plop:component */
 
 // Utilities
