@@ -1,6 +1,6 @@
 ---
 meta:
-  title: Mf Logo
+  title: Mf Img
   description:
 layout: component
 ---
