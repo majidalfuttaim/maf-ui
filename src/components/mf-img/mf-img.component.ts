@@ -45,8 +45,9 @@ export default class MfImg extends ShoelaceElement {
     if (this.href) {
       return html` <a
         class=${classMap({
-          logo: true,
-          'logo--rtl': isRtl
+          img: true,
+          'img--rtl': isRtl,
+          'img--anchor': this.href
         })}
         part="base"
         href="${this.href}"
