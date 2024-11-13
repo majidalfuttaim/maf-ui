@@ -145,6 +145,12 @@ export default class MfNavItem extends ShoelaceElement {
     const isRtl = this.localize.dir() === 'rtl';
     const isSubnavExpanded = this.subnavController.isExpanded();
 
+    const isVertical = this.parentElement?.hasAttribute('vertical')
+      ? this.parentElement?.getAttribute('vertical') !== 'false'
+      : false;
+
+    const chevron = isVertical ? (isRtl ? 'chevron-left' : 'chevron-right') : 'chevron-down';
+
     return html`
       <a
         id="anchor"
@@ -171,7 +177,7 @@ export default class MfNavItem extends ShoelaceElement {
         <slot name="suffix" part="suffix" class="nav-item__suffix"></slot>
 
         <span part="subnav-icon" class="nav-item__chevron">
-          <sl-icon name=${isRtl ? 'chevron-down' : 'chevron-down'} library="system" aria-hidden="true"></sl-icon>
+          <sl-icon name=${chevron} library="system" aria-hidden="true"></sl-icon>
         </span>
 
         ${this.subnavController.renderSubnav()}

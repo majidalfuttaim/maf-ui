@@ -79,6 +79,11 @@ To create a subnav, nest an `<mf-navigation slot="subnav">` in any [nav item](/c
   </mf-nav-item>
 
 </mf-navigation>
+<style>
+  mf-nav-item {
+    margin-right: 0.5rem;
+  }
+</style>
 </div>
 ```
 
@@ -231,10 +236,15 @@ To create a subnav, nest an `<mf-navigation slot="subnav" vertical="true">` in a
   <mf-nav-item value="undo">Contact Us</mf-nav-item>
   <mf-nav-item value="redo">Download Brochure</mf-nav-item>
   <mf-nav-item>
-    Language
+    Settings
     <mf-navigation slot="subnav" vertical="true">
-      <mf-nav-item value="uppercase">AR</mf-nav-item>
-      <mf-nav-item value="lowercase">EN</mf-nav-item>
+      <mf-nav-item>
+        Language
+        <mf-navigation slot="subnav" vertical="true">
+          <mf-nav-item value="uppercase">AR</mf-nav-item>
+          <mf-nav-item value="lowercase">EN</mf-nav-item>
+        </mf-navigation>
+      </mf-nav-item>
     </mf-navigation>
   </mf-nav-item>
 </mf-navigation>
