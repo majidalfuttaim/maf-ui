@@ -68,6 +68,10 @@ export default class MfNavigation extends ShoelaceElement {
   }
 
   private handleKeyDown(event: KeyboardEvent) {
+    // change keys based on vertical or horizontal
+    const PREVIOUS_ITEM_KEY = this.vertical ? 'ArrowUp' : 'ArrowLeft';
+    const NEXT_ITEM_KEY = this.vertical ? 'ArrowDown' : 'ArrowRight';
+
     // Make a selection when pressing enter or space
     if (event.key === 'Enter' || event.key === ' ') {
       const item = this.getCurrentItem();
@@ -78,8 +82,8 @@ export default class MfNavigation extends ShoelaceElement {
       item?.click();
     }
 
-    // Move the selection when pressing down or up
-    else if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+    // Move the selection when pressing down or up (for vertical only)
+    else if ([PREVIOUS_ITEM_KEY, NEXT_ITEM_KEY, 'Home', 'End'].includes(event.key)) {
       const items = this.getAllItems();
       const activeItem = this.getCurrentItem();
       let index = activeItem ? items.indexOf(activeItem) : 0;
@@ -88,9 +92,9 @@ export default class MfNavigation extends ShoelaceElement {
         event.preventDefault();
         event.stopPropagation();
 
-        if (event.key === 'ArrowDown') {
+        if (event.key === NEXT_ITEM_KEY) {
           index++;
-        } else if (event.key === 'ArrowUp') {
+        } else if (event.key === PREVIOUS_ITEM_KEY) {
           index--;
         } else if (event.key === 'Home') {
           index = 0;

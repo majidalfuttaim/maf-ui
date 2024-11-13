@@ -130,8 +130,8 @@ export class SubnavController implements ReactiveController {
       } else {
         this.enableSubnav(false);
         this.host.updateComplete.then(() => {
-          if (navItems![0] instanceof HTMLElement) {
-            navItems![0].focus();
+          if (navItems[0] instanceof HTMLElement) {
+            navItems[0].focus();
           }
         });
         this.host.requestUpdate();
@@ -139,14 +139,25 @@ export class SubnavController implements ReactiveController {
     }
   }
 
+  private parentIsVertical() {
+    return this.host.parentElement?.hasAttribute('vertical')
+      ? this.host.parentElement?.getAttribute('vertical') !== 'false'
+      : false;
+  }
+
   // Focus on the first nav-item of a subnav.
   private handleKeyDown = (event: KeyboardEvent) => {
+    const vertical = this.parentIsVertical();
+
+    const EXIT_KEY = vertical ? 'ArrowLeft' : 'ArrowUp';
+    const ENTER_KEY = vertical ? 'ArrowRight' : 'ArrowDown';
+
     switch (event.key) {
       case 'Escape':
       case 'Tab':
         this.disableSubnav();
         break;
-      case 'ArrowLeft':
+      case EXIT_KEY:
         // Either focus is currently on the host element or a child
         if (event.target !== this.host) {
           event.preventDefault();
@@ -155,7 +166,7 @@ export class SubnavController implements ReactiveController {
           this.disableSubnav();
         }
         break;
-      case 'ArrowRight':
+      case ENTER_KEY:
       case 'Enter':
       case ' ':
         this.handleSubnavEntry(event);
@@ -263,17 +274,23 @@ export class SubnavController implements ReactiveController {
   }
 
   renderSubnav() {
-    // const isRtl = getComputedStyle(this.host).direction === 'rtl';
+    const isRtl = getComputedStyle(this.host).direction === 'rtl';
 
     // Always render the slot, but conditionally render the outer <sl-popup>
     if (!this.isConnected) {
       return html` <slot name="subnav" hidden></slot> `;
     }
 
+    let placement = 'bottom-start';
+
+    if (this.parentIsVertical()) {
+      placement = isRtl ? 'left-start' : 'right-start';
+    }
+
     return html`
       <sl-popup
         ${ref(this.popupRef)}
-        placement="bottom-start"
+        placement="${placement}"
         anchor="anchor"
         flip
         flip-fallback-strategy="best-fit"
