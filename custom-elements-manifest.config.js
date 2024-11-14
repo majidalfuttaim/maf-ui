@@ -57,7 +57,9 @@ export default {
             }
 
             const tagNameWithoutPrefix = path.basename(importPath, '.component.ts');
-            const tagName = 'sl-' + tagNameWithoutPrefix;
+            const isMf = tagNameWithoutPrefix.startsWith('mf-');
+            const prefix = isMf ? '' : 'sl-';
+            const tagName = prefix + tagNameWithoutPrefix;
 
             classDoc.tagNameWithoutPrefix = tagNameWithoutPrefix;
             classDoc.tagName = tagName;
