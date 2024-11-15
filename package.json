@@ -1,5 +1,5 @@
 {
-  "name": "maf-ui",
+  "name": "@majidalfuttaim/maf-ui",
   "description": "A forward-thinking library of web components.",
   "version": "2.18.0",
   "homepage": "https://github.com/shoelace-style/shoelace",
@@ -10,6 +10,9 @@
   "type": "module",
   "types": "dist/shoelace.d.ts",
   "jsdelivr": "./cdn/shoelace-autoloader.js",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "exports": {
     ".": {
       "types": "./dist/shoelace.d.ts",

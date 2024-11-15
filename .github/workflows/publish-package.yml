@@ -1,0 +1,37 @@
+name: Publish to GitHub Packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          always-auth: 'true'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@majidalfuttaim'
+
+      - run: npx playwright install --with-deps
+
+      - run: npm ci
+
+      - name: Set Git config
+        run: |
+          git config --local user.email "maf"
+          git config --local user.name "maf"
+          
+      - run: npm run build
+
+      - run: npm version patch
+
+      - run: git push --follow-tags
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.publishToken }}
