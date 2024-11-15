@@ -15,6 +15,7 @@ New versions of Shoelace are released as-needed and generally occur when a criti
 ## Next
 
 - Added Norwegian translations for Bokmål and Nynorsk [#2268]
+- Added Ukrainian translation [#2270]
 - Added support for <kbd>Enter</kbd> to `<sl-split-panel>` to align with ARIA APG's [window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/) [#2234]
 - Fixed a bug in `<sl-carousel>` that caused the navigation icons to be reversed
 - Fixed a bug in `<sl-select>` that prevented label changes in `<sl-option>` from updating the controller [#1971]
