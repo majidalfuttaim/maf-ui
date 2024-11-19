@@ -130,8 +130,8 @@ export class SubnavController implements ReactiveController {
       } else {
         this.enableSubnav(false);
         this.host.updateComplete.then(() => {
-          if (navItems[0] instanceof HTMLElement) {
-            navItems[0].focus();
+          if (navItems![0] instanceof HTMLElement) {
+            navItems![0].focus();
           }
         });
         this.host.requestUpdate();
