@@ -84,6 +84,7 @@ export default class MfNavItem extends ShoelaceElement {
     super.connectedCallback();
     this.addEventListener('click', this.handleHostClick);
     this.addEventListener('mouseover', this.handleMouseOver);
+    this.getNavItemLevel(this.hasSlotController.host?.parentElement);
   }
 
   disconnectedCallback() {
@@ -139,6 +140,28 @@ export default class MfNavItem extends ShoelaceElement {
 
   isSubnav() {
     return this.hasSlotController.test('subnav');
+  }
+
+  private getNavItemLevel(navItemParent: HTMLElement | null) {
+    let level = 0;
+
+    const loopingBehavior = (passedNavItemParent: HTMLElement) => {
+      const navElementParent = passedNavItemParent;
+      const isMainNav =
+        navElementParent?.tagName?.toLocaleLowerCase() === 'mf-navigation' &&
+        navElementParent?.getAttribute('slot') !== 'subnav';
+      if (navElementParent?.hasAttribute('slot') && navElementParent?.getAttribute('slot') === 'subnav') {
+        ++level;
+      }
+      if (!isMainNav && navElementParent?.parentElement) {
+        loopingBehavior(navElementParent?.parentElement);
+      }
+      return level;
+    };
+    if (navItemParent) {
+      loopingBehavior(navItemParent);
+    }
+    this.setAttribute('level', `level-${level}`);
   }
 
   render() {
